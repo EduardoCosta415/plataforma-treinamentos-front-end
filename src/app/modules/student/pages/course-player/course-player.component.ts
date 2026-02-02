@@ -41,11 +41,11 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private progress: ProgressService,
+    private progress: ProgressService
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('courseId') || '';
+    this.courseId = this.route.snapshot.paramMap.get('id') || '';
     this.load();
   }
 
@@ -167,16 +167,18 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       // ainda é a mesma aula?
       if (!this.selectedLesson || this.selectedLesson.id !== lesson.id) return;
 
-      this.progress.watchMyLesson(lesson.id, ev.currentTime, ev.duration).subscribe({
-        next: () => {
-          // não precisamos fazer load() aqui (evita re-render e risco de jitter)
-          // quando trocar aula ou recarregar página, o lastPosition virá do backend
-        },
-        error: (err: unknown) => {
-          console.error('WATCH ERROR =>', err);
-          // não trava o aluno; só loga
-        },
-      });
+      this.progress
+        .watchMyLesson(lesson.id, ev.currentTime, ev.duration)
+        .subscribe({
+          next: () => {
+            // não precisamos fazer load() aqui (evita re-render e risco de jitter)
+            // quando trocar aula ou recarregar página, o lastPosition virá do backend
+          },
+          error: (err: unknown) => {
+            console.error('WATCH ERROR =>', err);
+            // não trava o aluno; só loga
+          },
+        });
     }, 200);
   }
 
