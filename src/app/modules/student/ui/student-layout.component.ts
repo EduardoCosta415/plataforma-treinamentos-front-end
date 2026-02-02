@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/auth/auth.service';
 import { StudentCoursesService } from '../service/student-courses.service';
-import { StudentCertificatesService } from '../service/studente-service.certificate';
+import { CertificatesService } from 'src/app/core/certificates/certificates.service';
 
 @Component({
   selector: 'app-student-layout',
@@ -24,7 +24,7 @@ export class StudentLayoutComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private coursesApi: StudentCoursesService,
-    private certApi: StudentCertificatesService,
+    private certApi: CertificatesService,
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class StudentLayoutComponent implements OnInit {
     // Certificados (quantos já liberados)
     this.certApi.listMyCertificates().subscribe({
       next: (certs) => {
-        this.totalCertificates = (certs as any || []).length;
+        this.totalCertificates = (certs || []).length;
       },
       error: () => {
         this.totalCertificates = 0;
