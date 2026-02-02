@@ -1,0 +1,129 @@
+<!-- Cabeçalho -->
+<div class="card" style="padding:16px;">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div>
+      <div style="font-weight:900; font-size:18px;">
+        {{ tree?.title || 'Curso' }}
+      </div>
+      <div style="font-size:12px; color:var(--muted);">
+        {{ tree?.description || 'Acompanhe suas aulas e conclua em ordem.' }}
+      </div>
+    </div>
+
+    <div class="badge">Área do Aluno</div>
+  </div>
+</div>
+
+<!-- Erros -->
+<div *ngIf="error" class="alert-error" style="margin-top:12px;">
+  {{ error }}
+</div>
+
+<!-- Loading -->
+<div
+  *ngIf="loading"
+  class="card"
+  style="padding:16px; margin-top:12px; color:var(--muted);"
+>
+  Carregando...
+</div>
+
+<!-- Conteúdo -->
+<div
+  *ngIf="!loading && tree"
+  style="display:grid; grid-template-columns: 360px 1fr; gap:16px; margin-top:12px;"
+>
+  <!-- Sidebar -->
+  <div class="card" style="padding:12px;">
+    <div style="font-weight:900; margin-bottom:10px;">Conteúdo</div>
+
+    <div *ngFor="let m of tree.modules" style="margin-bottom:14px;">
+      <div style="font-weight:800; margin:8px 0;">
+        {{ m.title }}
+      </div>
+
+      <div
+        *ngFor="let l of m.lessons"
+        (click)="selectLesson(l)"
+        style="
+          padding:10px;
+          border:1px solid var(--border);
+          border-radius:12px;
+          margin-bottom:8px;
+          cursor:pointer;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        "
+        [style.opacity]="l.locked ? 0.5 : 1"
+        [style.background]="selectedLesson?.id === l.id ? 'rgba(200,146,26,0.10)' : 'transparent'"
+      >
+        <div>
+          <div style="font-weight:700;">{{ l.title }}</div>
+          <div style="font-size:12px; color:var(--muted);">
+            {{ badgeFor(l) }}
+          </div>
+        </div>
+
+        <span class="badge" *ngIf="l.completed">✓</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área principal -->
+  <div class="card" style="padding:16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-weight:900;">
+        {{ selectedLesson?.title || 'Selecione uma aula' }}
+      </div>
+
+      <button
+        class="btn btn-primary"
+        [disabled]="!selectedLesson || selectedLesson.locked || selectedLesson.completed || completing || !canComplete"
+        (click)="completeSelectedLesson()"
+      >
+        {{ completing ? 'Concluindo...' : (canComplete ? 'Concluir aula' : 'Assista até o fim') }}
+      </button>
+    </div>
+
+    <div style="margin-top:10px; font-size:12px; color:var(--muted);">
+      Regra: você só avança após concluir a aula anterior.
+    </div>
+
+    <!-- Player -->
+    <div style="margin-top:16px;">
+      <!-- ✅ se não selecionou aula -->
+      <ng-container *ngIf="selectedLesson; else tplSelectLesson">
+
+        <!-- ✅ se tem vídeo válido (videoId extraído) -->
+                  <ng-container *ngIf="selectedVideoId; else noVideo">
+                    <app-youtube-player
+            [videoId]="selectedVideoId"
+            [blockSeek]="true"
+            [allowedTime]="selectedLesson?.lastPosition || 0"
+            (progress)="onVideoProgress($event)"
+            (ended)="onVideoEnded()"
+          ></app-youtube-player>
+
+          <div *ngIf="!canComplete && !selectedLesson.completed"
+               style="margin-top:10px; font-size:12px; color:var(--muted);">
+            Assista o vídeo até o final para liberar a conclusão ✅
+          </div>
+        </ng-container>
+
+      </ng-container>
+
+      <ng-template #tplSelectLesson>
+        <div class="card" style="padding:12px; margin-top:10px; color:var(--muted);">
+          Selecione uma aula ao lado para começar.
+        </div>
+      </ng-template>
+
+      <ng-template #noVideo>
+        <div class="card" style="padding:12px; margin-top:10px; color:var(--muted);">
+          Esta aula ainda não possui vídeo cadastrado ou o link não está no formato do YouTube.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

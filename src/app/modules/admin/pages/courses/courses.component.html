@@ -1,0 +1,106 @@
+<h2 class="page-title">Cursos</h2>
+
+<!-- ALERTAS -->
+<div *ngIf="success" class="card" style="padding:12px; margin-bottom:12px;">
+  ✅ {{ success }}
+</div>
+
+<div *ngIf="error" class="alert-error" style="margin-bottom:12px;">
+  {{ error }}
+</div>
+
+<!-- CARD: CADASTRO -->
+<div class="card" style="padding:16px; margin-bottom:14px;">
+  <div style="font-weight:800; margin-bottom:10px;">Cadastrar curso</div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+    <div>
+      <label class="label">Título</label>
+      <input class="input" [(ngModel)]="title" placeholder="Ex: Angular Completo" />
+    </div>
+
+    <div>
+      <label class="label">Descrição</label>
+      <input class="input" [(ngModel)]="description" placeholder="Opcional" />
+    </div>
+  </div>
+
+  <div style="margin-top:12px;">
+    <label class="label">Imagem (URL)</label>
+    <input class="input" [(ngModel)]="imageUrl" placeholder="https://..." />
+  </div>
+
+  <div style="margin-top:12px; display:flex; gap:10px;">
+    <button class="btn btn-primary" (click)="create()">Cadastrar</button>
+    <button class="btn btn-ghost" (click)="title=''; description=''; imageUrl=''">
+      Limpar
+    </button>
+  </div>
+</div>
+
+<!-- CARD: LISTA -->
+<div class="card" style="padding:16px;">
+  <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+    <div style="font-weight:800;">Lista de cursos</div>
+    <div class="badge">{{ courses.length }} curso(s)</div>
+  </div>
+
+  <div *ngIf="loading" style="color: var(--muted);">Carregando...</div>
+
+  <div *ngIf="!loading && courses.length === 0" style="color: var(--muted);">
+    Nenhum curso cadastrado ainda.
+  </div>
+
+  <table *ngIf="!loading && courses.length > 0" style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr style="text-align:left; font-size:12px; color: var(--muted);">
+        <th style="padding:10px; border-bottom:1px solid var(--border);">Curso</th>
+        <th style="padding:10px; border-bottom:1px solid var(--border); width:340px;">Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let course of courses">
+        <td style="padding:12px 10px; border-bottom:1px solid var(--border);">
+          <!-- MODO EDIT -->
+          <div *ngIf="editingId === course.id; else viewMode">
+            <div style="display:grid; gap:8px;">
+              <input class="input" [(ngModel)]="editTitle" placeholder="Título" />
+              <input class="input" [(ngModel)]="editDescription" placeholder="Descrição (opcional)" />
+              <input class="input" [(ngModel)]="editImageUrl" placeholder="Imagem (URL)" />
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:10px;">
+              <button class="btn btn-primary" (click)="saveEdit()">Salvar</button>
+              <button class="btn btn-ghost" (click)="cancelEdit()">Cancelar</button>
+            </div>
+          </div>
+
+          <!-- MODO VIEW -->
+          <ng-template #viewMode>
+            <div style="font-weight:800;">{{ course.title }}</div>
+            <div style="font-size:12px; color:var(--muted);">
+              {{ course.description || 'Sem descrição' }}
+            </div>
+          </ng-template>
+        </td>
+
+        <td style="padding:12px 10px; border-bottom:1px solid var(--border);">
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn btn-outline" [routerLink]="['/admin/cursos', course.id, 'conteudo']">
+              Conteúdo
+            </a>
+
+            <button class="btn btn-outline" (click)="startEdit(course)">
+              Editar
+            </button>
+
+            <button class="btn btn-ghost" (click)="deactivate(course)">
+              Desativar
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

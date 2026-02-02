@@ -1,0 +1,113 @@
+<div class="dashboard-container">
+  <!-- Cabeçalho -->
+  <div class="dashboard-header">
+    <h2 class="page-title">📊 Dashboard Executivo</h2>
+    <p class="page-subtitle">Visão geral do desempenho da plataforma</p>
+  </div>
+
+  <!-- ===== KPIs ===== -->
+  <div class="kpi-grid">
+    <div class="card kpi kpi-students">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-content">
+        <span class="label">Total de Alunos</span>
+        <strong class="value">{{ summary.totalStudents }}</strong>
+      </div>
+    </div>
+
+    <div class="card kpi kpi-courses">
+      <div class="kpi-icon">📚</div>
+      <div class="kpi-content">
+        <span class="label">Cursos Ativos</span>
+        <strong class="value">{{ summary.totalCourses }}</strong>
+      </div>
+    </div>
+
+    <div class="card kpi kpi-lessons">
+      <div class="kpi-icon">🎓</div>
+      <div class="kpi-content">
+        <span class="label">Total de Aulas</span>
+        <strong class="value">{{ summary.totalLessons }}</strong>
+      </div>
+    </div>
+
+    <div class="card kpi kpi-completion">
+      <div class="kpi-icon">✅</div>
+      <div class="kpi-content">
+        <span class="label">Taxa de Conclusão</span>
+        <strong class="value">{{ summary.completionRate }}%</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GRÁFICOS ===== -->
+  <div class="charts-grid">
+    <!-- Gráfico de Alunos -->
+    <div class="card chart-card">
+      <div class="chart-header">
+        <h3>📈 Crescimento de Alunos</h3>
+        <span class="chart-badge">Últimos 6 meses</span>
+      </div>
+      <apx-chart
+        [series]="studentsSeries"
+        [chart]="studentsChart"
+        [xaxis]="studentsXAxis"
+        [yaxis]="studentsYAxis"
+        [stroke]="studentsStroke"
+        [fill]="studentsFill"
+        [dataLabels]="studentsDataLabels"
+        [tooltip]="studentsTooltip"
+        [grid]="studentsGrid"
+      ></apx-chart>
+    </div>
+
+    <!-- Gráfico de Progresso -->
+    <div class="card chart-card">
+      <div class="chart-header">
+        <h3>📊 Progresso por Curso</h3>
+        <span class="chart-badge">Taxa de conclusão</span>
+      </div>
+      <apx-chart
+        [series]="progressSeries"
+        [chart]="progressChart"
+        [plotOptions]="progressPlot"
+        [xaxis]="progressXAxis"
+        [yaxis]="progressYAxis"
+        [dataLabels]="progressDataLabels"
+        [tooltip]="progressTooltip"
+        [grid]="progressGrid"
+        [colors]="progressColors"
+      ></apx-chart>
+    </div>
+  </div>
+
+  <!-- ===== Insights Rápidos ===== -->
+  <div class="insights-section">
+    <h3 class="section-title">💡 Insights Rápidos</h3>
+    <div class="insights-grid">
+      <div class="card insight-card">
+        <div class="insight-icon success">📈</div>
+        <div class="insight-content">
+          <h4>Crescimento Positivo</h4>
+          <p>{{ summary.totalStudents }} alunos ativos na plataforma</p>
+        </div>
+      </div>
+
+      <div class="card insight-card">
+        <div class="insight-icon warning">⚡</div>
+        <div class="insight-content">
+          <h4>Alta Performance</h4>
+          <p>{{ summary.completionRate }}% de taxa de conclusão média</p>
+        </div>
+      </div>
+
+      <div class="card insight-card">
+        <div class="insight-icon info">🎯</div>
+        <div class="insight-content">
+          <h4>Conteúdo Extenso</h4>
+          <p>{{ summary.totalLessons }} aulas distribuídas em {{ summary.totalCourses }} cursos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

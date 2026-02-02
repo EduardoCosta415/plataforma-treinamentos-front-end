@@ -1,0 +1,49 @@
+<h2 class="page-title">Importação de Alunos</h2>
+
+<div class="card" style="padding:16px; max-width:600px;">
+  <div style="font-weight:700; margin-bottom:10px;">
+    Importar alunos via CSV
+  </div>
+
+  <input
+    type="file"
+    accept=".csv"
+    (change)="onFileSelected($event)"
+  />
+
+  <div style="margin-top:12px;">
+    <button
+      class="btn btn-primary"
+      (click)="import()"
+      [disabled]="loading"
+    >
+      {{ loading ? 'Importando...' : 'Importar' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alert-error" style="margin-top:10px;">
+    {{ error }}
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div *ngIf="result" class="card" style="margin-top:16px; padding:16px;">
+  <div style="font-weight:700; margin-bottom:8px;">
+    Resultado da Importação
+  </div>
+
+  <ul>
+    <li>Alunos criados: {{ result.createdStudents }}</li>
+    <li>Alunos atualizados: {{ result.updatedStudents }}</li>
+    <li>Alunos matriculados: {{ result.enrolled }}</li>
+  </ul>
+
+  <div *ngIf="result.errors?.length">
+    <h4 style="margin-top:10px;">Erros</h4>
+    <ul style="color:#c0392b;">
+      <li *ngFor="let e of result.errors">
+        Linha {{ e.line }}: {{ e.message }}
+      </li>
+    </ul>
+  </div>
+</div>

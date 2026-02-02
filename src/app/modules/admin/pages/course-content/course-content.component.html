@@ -1,0 +1,127 @@
+<h2 class="page-title">Conteúdo do Curso</h2>
+
+<div *ngIf="loading" class="card" style="padding:16px;">
+  Carregando conteúdo do curso...
+</div>
+
+<div *ngIf="error" class="alert-error" style="margin-bottom:12px;">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && courseTree" class="card" style="padding:16px;">
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    "
+  >
+    <div>
+      <div style="font-size:18px; font-weight:900;">
+        {{ courseTree.title }}
+      </div>
+      <div style="color:var(--muted); margin-top:4px;">
+        {{ courseTree.description || 'Sem descrição' }}
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="openCreateModule()">
+      + Adicionar módulo
+    </button>
+  </div>
+
+  <!-- FORM: CRIAR MÓDULO -->
+  <div *ngIf="showCreateModule" class="card" style="padding:14px; margin-top:14px;">
+    <div style="font-weight:800; margin-bottom:10px;">
+      Novo módulo
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 120px; gap:12px;">
+      <div>
+        <label class="label">Título</label>
+        <input class="input" [(ngModel)]="moduleTitle" />
+      </div>
+
+      <div>
+        <label class="label">Ordem</label>
+        <input class="input" type="number" [(ngModel)]="moduleOrder" />
+      </div>
+    </div>
+
+    <div style="margin-top:12px; display:flex; gap:10px;">
+      <button class="btn btn-primary" (click)="createModule()">
+        Salvar módulo
+      </button>
+      <button class="btn btn-ghost" (click)="cancelCreateModule()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- LISTA DE MÓDULOS -->
+  <div *ngFor="let module of courseTree.modules" class="card" style="padding:14px; margin-top:14px;">
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:8px;
+      "
+    >
+      <div style="font-weight:900;">
+        {{ module.order }}. {{ module.title }}
+      </div>
+
+      <button class="btn btn-outline" (click)="openCreateLesson(module.id)">
+        + Aula
+      </button>
+    </div>
+
+    <!-- FORM: CRIAR AULA -->
+    <div *ngIf="showCreateLessonForModuleId === module.id" style="margin-bottom:12px;">
+      <div style="display:grid; grid-template-columns: 1fr 120px; gap:12px;">
+        <div>
+          <label class="label">Título da aula</label>
+          <input class="input" [(ngModel)]="lessonTitle" />
+        </div>
+
+        <div>
+          <label class="label">Ordem</label>
+          <input class="input" type="number" [(ngModel)]="lessonOrder" />
+        </div>
+      </div>
+
+      <div style="margin-top:10px;">
+        <label class="label">URL do vídeo</label>
+        <input class="input" [(ngModel)]="lessonVideoUrl" placeholder="https://..." />
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:10px;">
+        <button class="btn btn-primary" (click)="createLesson(module.id)">
+          Salvar aula
+        </button>
+        <button class="btn btn-ghost" (click)="cancelCreateLesson()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- LISTA DE AULAS -->
+    <div *ngIf="!module.lessons || module.lessons.length === 0" style="color:var(--muted); font-size:13px;">
+      Nenhuma aula cadastrada neste módulo.
+    </div>
+
+    <div
+      *ngFor="let lesson of module.lessons"
+      style="
+        padding:8px 0;
+        border-bottom:1px solid var(--border);
+        font-size:14px;
+      "
+    >
+      ▶ {{ lesson.order }}. {{ lesson.title }}
+    </div>
+  </div>
+</div>

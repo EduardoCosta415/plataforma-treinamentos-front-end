@@ -1,0 +1,49 @@
+<h2 class="page-title">Meus cursos</h2>
+
+<div class="card shell">
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <div *ngIf="loading" class="muted">Carregando...</div>
+
+  <div *ngIf="!loading && !error && courses.length === 0" class="empty">
+    Nenhum curso matriculado ainda.
+  </div>
+
+  <div *ngIf="!loading && courses.length > 0" class="grid">
+    <div class="card course-card" *ngFor="let c of courses">
+      <div class="row">
+        <div class="avatar" aria-hidden="true">
+          <span class="avatar-letter">
+            {{ (c.title || 'C').slice(0,1).toUpperCase() }}
+          </span>
+        </div>
+
+        <div class="meta">
+          <div class="title" title="{{ c.title }}">{{ c.title }}</div>
+          <div class="desc">{{ c.description || 'Sem descrição' }}</div>
+        </div>
+      </div>
+
+      <div class="progress">
+        <div class="progress-top">
+          <span class="muted">Progresso</span>
+
+          <!-- ✅ progresso real -->
+          <span class="badge">
+            {{ (c.completedLessons || 0) }}/{{ (c.totalLessons || 0) }} aulas
+            • {{ c.progressPercent || 0 }}%
+          </span>
+        </div>
+
+        <div class="bar">
+          <div class="bar-fill" [style.width.%]="c.progressPercent || 0"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" type="button" (click)="load()">Atualizar</button>
+        <button class="btn btn-primary" type="button" (click)="open(c)">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>

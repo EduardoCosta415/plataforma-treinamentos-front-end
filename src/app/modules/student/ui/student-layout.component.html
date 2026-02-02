@@ -1,0 +1,77 @@
+<div style="display:flex; min-height:100vh;">
+
+  <!-- Sidebar -->
+  <aside class="card" style="width:260px; margin:16px; padding:16px; align-self:flex-start;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+      <div
+        style="width:38px; height:38px; border-radius:12px;
+               background: rgba(200,146,26,0.14);
+               border: 1px solid rgba(200,146,26,0.25);
+               display:flex; align-items:center; justify-content:center;">
+        <span style="color: var(--gold-2); font-weight:900;">L</span>
+      </div>
+      <div>
+        <div style="font-weight:900; letter-spacing:0.4px;">LAENA</div>
+        <div style="font-size:12px; color: var(--muted);">Área do Aluno</div>
+      </div>
+    </div>
+
+    <nav style="display:flex; flex-direction:column; gap:8px;">
+      <a
+        class="side-link"
+        routerLink="/aluno"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Meus Cursos
+      </a>
+
+      <!-- PROVAS (só aparece se existir pelo menos uma prova vinculada) -->
+      <a
+        *ngIf="hasAnyExam"
+        class="side-link"
+        routerLink="/aluno/provas"
+        routerLinkActive="active"
+      >
+        Provas
+        <span class="badge" style="margin-left:8px;">{{ totalExams }}</span>
+      </a>
+
+      <!-- CERTIFICADOS (sempre aparece; libera por curso conforme aprovação) -->
+      <a
+        class="side-link"
+        routerLink="/aluno/certificados"
+        routerLinkActive="active"
+      >
+        Certificados
+        <span class="badge" style="margin-left:8px;">{{ totalCertificates }}</span>
+      </a>
+    </nav>
+
+    <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--border);">
+      <div style="font-size:12px; color: var(--muted); margin-bottom:6px;">Sessão</div>
+      <div style="font-size:13px;"><b>{{ userEmail }}</b></div>
+      <div class="badge" style="display:inline-block; margin-top:10px;">{{ userRole }}</div>
+
+      <button class="btn btn-ghost" style="margin-top:14px; width:100%;" (click)="logout()">
+        Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <div class="card" style="flex:1; margin:16px 16px 16px 0; overflow:hidden;">
+    <div class="topbar">
+      <div>
+        <div style="font-weight:800;">Bem-vindo</div>
+        <div style="font-size:12px; color: var(--muted);">Seus cursos e progresso</div>
+      </div>
+      <div class="badge">Ambiente Seguro</div>
+    </div>
+
+    <main style="padding:18px;">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+</div>

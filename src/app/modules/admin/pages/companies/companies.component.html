@@ -1,0 +1,65 @@
+<h2 class="page-title">Empresas</h2>
+
+<div class="card" style="padding:16px; margin-bottom:14px;">
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+    <div>
+      <label class="label">Nome</label>
+      <input class="input" [(ngModel)]="name" placeholder="Ex: Empresa XYZ" />
+    </div>
+    <div>
+      <label class="label">CNPJ (opcional)</label>
+      <input class="input" [(ngModel)]="cnpj" placeholder="00.000.000/0000-00" />
+    </div>
+    <div>
+      <label class="label">Email (opcional)</label>
+      <input class="input" [(ngModel)]="email" placeholder="financeiro@empresa.com" />
+    </div>
+    <div>
+      <label class="label">Telefone (opcional)</label>
+      <input class="input" [(ngModel)]="phone" placeholder="(11) 99999-9999" />
+    </div>
+  </div>
+
+  <div style="margin-top:12px; display:flex; gap:10px;">
+    <button class="btn btn-primary" (click)="create()">Cadastrar empresa</button>
+    <button class="btn btn-ghost" (click)="load()">Atualizar lista</button>
+  </div>
+
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+</div>
+
+<div class="card" style="padding:16px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <div style="font-weight:800;">Lista de empresas</div>
+    <div class="badge">{{ items.length }} registro(s)</div>
+  </div>
+
+  <div *ngIf="loading" style="color: var(--muted);">Carregando...</div>
+
+  <table *ngIf="!loading" style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr style="text-align:left; color: var(--muted); font-size: 12px;">
+        <th style="padding:10px; border-bottom: 1px solid var(--border);">Nome</th>
+        <th style="padding:10px; border-bottom: 1px solid var(--border);">CNPJ</th>
+        <th style="padding:10px; border-bottom: 1px solid var(--border);">Email</th>
+        <th style="padding:10px; border-bottom: 1px solid var(--border);">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of items">
+        <td style="padding:10px; border-bottom: 1px solid var(--border); font-weight:700;">
+          {{ c.name }}
+        </td>
+        <td style="padding:10px; border-bottom: 1px solid var(--border); color: var(--muted);">
+          {{ c.cnpj || '-' }}
+        </td>
+        <td style="padding:10px; border-bottom: 1px solid var(--border); color: var(--muted);">
+          {{ c.email || '-' }}
+        </td>
+        <td style="padding:10px; border-bottom: 1px solid var(--border);">
+          <span class="badge">{{ c.isActive ? 'Ativa' : 'Inativa' }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

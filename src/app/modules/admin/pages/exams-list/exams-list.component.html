@@ -1,0 +1,44 @@
+<div class="card" style="padding:16px;">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div>
+      <div style="font-weight:900; font-size:18px;">Provas</div>
+      <div style="font-size:12px; color:var(--muted);">
+        Criar, editar, vincular ao curso e gerenciar perguntas.
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="goNew()">+ Nova Prova</button>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert-error" style="margin-top:12px;">{{ error }}</div>
+
+<div *ngIf="loading" class="card" style="padding:16px; margin-top:12px; color:var(--muted);">
+  Carregando...
+</div>
+
+<div *ngIf="!loading" class="card" style="padding:12px; margin-top:12px;">
+  <div *ngIf="exams.length === 0" style="color:var(--muted); padding:8px;">
+    Nenhuma prova cadastrada.
+  </div>
+
+  <div *ngFor="let e of exams"
+       style="padding:12px; border:1px solid var(--border); border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; gap:12px;">
+    <div style="display:flex; flex-direction:column;">
+      <div style="font-weight:900;">{{ e.title }}</div>
+      <div style="font-size:12px; color:var(--muted);">
+        Curso: {{ e.course?.title || e.courseId }} • Nota mínima: {{ e.passScore }}% •
+        Perguntas: {{ e._count?.questions || 0 }}
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+      <span class="badge" [style.opacity]="e.isActive ? 1 : 0.6">
+        {{ e.isActive ? 'Ativa' : 'Inativa' }}
+      </span>
+
+      <button class="btn" (click)="goEdit(e.id)">Editar</button>
+      <button class="btn btn-danger" (click)="removeExam(e)">Excluir</button>
+    </div>
+  </div>
+</div>

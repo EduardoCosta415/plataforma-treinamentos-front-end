@@ -1,0 +1,62 @@
+<h2 class="page-title">Meu Curso</h2>
+
+<div *ngIf="loading" class="card" style="padding:16px;">
+  Carregando curso...
+</div>
+
+<div *ngIf="error" class="alert-error">{{ error }}</div>
+
+<div *ngIf="!loading && course">
+  <div
+    *ngFor="let module of course.modules; let mIndex = index"
+    class="card"
+    style="padding:16px; margin-bottom:14px;"
+  >
+    <div style="font-weight:900; margin-bottom:10px;">
+      {{ module.order }}. {{ module.title }}
+    </div>
+
+    <div
+      *ngFor="let lesson of module.lessons; let lIndex = index"
+      style="
+        padding:10px;
+        margin-bottom:8px;
+        border-radius:6px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      "
+      [ngStyle]="{
+        background: isCompleted(lesson.id)
+          ? '#e6f7ee'
+          : isLessonUnlocked(mIndex, lIndex)
+          ? '#eef5ff'
+          : '#f2f2f2'
+      }"
+    >
+      <div>
+        <strong>{{ lesson.order }}. {{ lesson.title }}</strong>
+
+        <div *ngIf="lesson.videoUrl" style="font-size:12px; color:var(--muted);">
+          Vídeo disponível
+        </div>
+      </div>
+
+      <!-- STATUS -->
+      <div>
+        <span *ngIf="isCompleted(lesson.id)">✅</span>
+        <span *ngIf="!isCompleted(lesson.id) && isLessonUnlocked(mIndex, lIndex)">▶️</span>
+        <span *ngIf="!isLessonUnlocked(mIndex, lIndex)">🔒</span>
+      </div>
+
+      <!-- AÇÃO -->
+      <button
+        *ngIf="!isCompleted(lesson.id) && isLessonUnlocked(mIndex, lIndex)"
+        class="btn btn-primary"
+        (click)="completeLesson(lesson.id)"
+      >
+        Concluir
+      </button>
+    </div>
+  </div>
+</div>

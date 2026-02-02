@@ -1,0 +1,163 @@
+<!-- HEADER -->
+<div class="card" style="padding:16px;">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div>
+      <div style="font-weight:900; font-size:18px;">
+        {{ examId && examId !== 'new' ? 'Editar Prova' : 'Nova Prova' }}
+      </div>
+      <div style="font-size:12px; color:var(--muted);">
+        Vincule ao curso, defina nota mínima e gerencie perguntas.
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px;">
+      <button class="btn" (click)="back()">Voltar</button>
+
+      <button class="btn btn-primary" [disabled]="saving" (click)="saveExam()">
+        {{ saving ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ERROS / LOADING -->
+<div *ngIf="error" class="alert-error" style="margin-top:12px;">
+  {{ error }}
+</div>
+
+<div *ngIf="loading" class="card" style="padding:16px; margin-top:12px; color:var(--muted);">
+  Carregando...
+</div>
+
+<!-- CONTEÚDO -->
+<div *ngIf="!loading"
+     style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:12px;">
+
+  <!-- =========================
+       FORM PROVA
+  ========================== -->
+  <div class="card" style="padding:16px;">
+    <div style="font-weight:900; margin-bottom:12px;">Dados da Prova</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <!-- CURSO (SÓ SELECT) -->
+      <label style="font-size:12px; color:var(--muted);">Curso</label>
+
+      <select class="input"
+              [formControl]="form.controls.courseId"
+              [disabled]="courses.length === 0">
+        <option value="">
+          {{ courses.length === 0 ? 'Carregando cursos...' : 'Selecione um curso...' }}
+        </option>
+        <option *ngFor="let c of courses" [value]="c.id">
+          {{ c.title }}
+        </option>
+      </select>
+
+      <div *ngIf="courses.length === 0"
+           style="font-size:12px; color:var(--muted); margin-top:6px;">
+        Nenhum curso carregado. Verifique o endpoint de cursos no backend.
+      </div>
+
+      <!-- TÍTULO -->
+      <label style="font-size:12px; color:var(--muted);">Título</label>
+      <input class="input"
+             placeholder="Ex: Prova NR-10"
+             [formControl]="form.controls.title" />
+
+      <!-- NOTA -->
+      <label style="font-size:12px; color:var(--muted);">Nota mínima (%)</label>
+      <input class="input"
+             type="number"
+             [formControl]="form.controls.passScore" />
+
+      <!-- ATIVA -->
+      <label style="display:flex; gap:8px; align-items:center; margin-top:6px;">
+        <input type="checkbox" [formControl]="form.controls.isActive" />
+        <span>Prova ativa</span>
+      </label>
+    </div>
+
+    <div style="margin-top:12px; font-size:12px; color:var(--muted);">
+      Dica: salve a prova primeiro, depois crie as perguntas.
+    </div>
+  </div>
+
+  <!-- =========================
+       PERGUNTAS
+  ========================== -->
+  <div class="card" style="padding:16px;">
+    <div style="font-weight:900; margin-bottom:12px;">Perguntas</div>
+
+    <!-- NOVA PERGUNTA -->
+    <div style="border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:12px;">
+      <div style="font-weight:800; margin-bottom:10px;">Adicionar pergunta</div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <input class="input"
+               placeholder="Pergunta"
+               [formControl]="questionForm.controls.title" />
+
+        <input class="input"
+               type="number"
+               placeholder="Ordem"
+               [formControl]="questionForm.controls.order" />
+
+        <div style="font-size:12px; color:var(--muted); margin-top:6px;">
+          Opções (marque 1 correta)
+        </div>
+
+        <div *ngFor="let o of options.controls; let i = index"
+             style="display:flex; gap:8px; align-items:center;">
+
+          <input class="input"
+                 style="flex:1;"
+                 placeholder="Texto da opção"
+                 [formControl]="asFormControl(asFormGroup(o).get('label'))" />
+
+          <label style="display:flex; gap:6px; align-items:center; white-space:nowrap;">
+            <input type="radio"
+                   name="correct"
+                   [checked]="asFormGroup(o).get('isCorrect')?.value"
+                   (change)="markCorrect(i)" />
+            correta
+          </label>
+
+          <button class="btn"
+                  (click)="removeOption(i)"
+                  [disabled]="options.length <= 2">
+            -
+          </button>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <button class="btn" (click)="addOption()">+ opção</button>
+          <button class="btn btn-primary" (click)="addQuestion()">Adicionar pergunta</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTA DE PERGUNTAS -->
+    <div *ngIf="questions.length === 0" style="color:var(--muted);">
+      Nenhuma pergunta ainda.
+    </div>
+
+    <div *ngFor="let q of questions"
+         style="border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:10px;">
+
+      <div style="display:flex; justify-content:space-between; gap:12px;">
+        <div>
+          <div style="font-weight:900;">{{ q.order }}. {{ q.title }}</div>
+
+          <div style="font-size:12px; color:var(--muted); margin-top:6px;">
+            <span *ngFor="let op of q.options; let last = last">
+              {{ op.isCorrect ? '✅' : '•' }} {{ op.label }}{{ last ? '' : '  |  ' }}
+            </span>
+          </div>
+        </div>
+
+        <button class="btn btn-danger" (click)="removeQuestion(q)">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>

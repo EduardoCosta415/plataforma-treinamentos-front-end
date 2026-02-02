@@ -1,0 +1,93 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Sidebar do aluno (estilo “produto”) */
+.sidebar {
+  width: 280px;
+  flex: 0 0 auto;
+
+  background: linear-gradient(180deg, rgba(16, 18, 24, 0.88), rgba(12, 14, 18, 0.88));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+
+  padding: 14px;
+  align-self: flex-start;
+  position: sticky;
+  top: 16px;
+  height: fit-content;
+
+  h3 {
+    margin: 6px 6px 14px 6px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+    color: rgba(231,233,238,0.92);
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 10px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    color: rgba(231,233,238,0.92);
+
+    background: rgba(255,255,255,0.02);
+    transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+
+    /* ✅ pronto para ícones */
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-2);
+    }
+
+    &:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(200,146,26,0.18);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* Conteúdo */
+.content {
+  flex: 1;
+  min-width: 0;
+
+  background: linear-gradient(180deg, rgba(16, 18, 24, 0.60), rgba(12, 14, 18, 0.55));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+
+  padding: 18px;
+}
+
+/* ✅ Mobile: sidebar vira topo */
+@media (max-width: 960px) {
+  .layout {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+  }
+
+  .content {
+    padding: 14px;
+  }
+}

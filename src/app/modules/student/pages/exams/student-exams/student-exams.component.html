@@ -1,0 +1,41 @@
+<div class="card" style="padding:16px;">
+  <div style="font-weight:900; font-size:18px;">Provas</div>
+  <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+    As provas liberam quando você conclui 100% do curso.
+  </div>
+</div>
+
+<div *ngIf="error" class="alert-error" style="margin-top:12px;">{{ error }}</div>
+
+<div *ngIf="loading" class="card" style="padding:16px; margin-top:12px; color:var(--muted);">
+  Carregando...
+</div>
+
+<div *ngIf="!loading" style="margin-top:12px; display:grid; gap:12px;">
+  <div *ngIf="exams.length === 0" class="card" style="padding:16px; color:var(--muted);">
+    Nenhuma prova cadastrada ainda.
+  </div>
+
+  <div *ngFor="let e of exams"
+       class="card"
+       style="padding:16px; display:flex; justify-content:space-between; gap:16px;">
+    <div>
+      <div style="font-weight:900;">{{ e.examTitle }}</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+        Curso: <b>{{ e.courseTitle }}</b>
+      </div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+        Progresso do curso: {{ e.progressPercent }}%
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="badge" *ngIf="e.unlocked">Liberada</span>
+      <span class="badge" *ngIf="!e.unlocked">Bloqueada</span>
+
+      <button class="btn btn-primary" [disabled]="!e.unlocked" (click)="openExam(e)">
+        {{ e.unlocked ? 'Fazer prova' : 'Conclua o curso' }}
+      </button>
+    </div>
+  </div>
+</div>
