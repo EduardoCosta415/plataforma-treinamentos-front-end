@@ -7,7 +7,7 @@
     margin-bottom: 14px;
   "
 >
-  <h2 class="page-title" style="margin: 0;">Alunos</h2>
+  <h2 class="page-title" style="margin: 0">Alunos</h2>
 
   <button class="btn btn-primary" (click)="openCreateModal()">
     + Cadastrar aluno
@@ -15,46 +15,60 @@
 </div>
 
 <!-- Alerts -->
-<div *ngIf="success" class="card" style="padding: 12px; margin-bottom: 12px;">
+<div *ngIf="success" class="card" style="padding: 12px; margin-bottom: 12px">
   ✅ {{ success }}
 </div>
 
-<div *ngIf="error" class="alert-error" style="margin-bottom: 12px;">
+<div *ngIf="error" class="alert-error" style="margin-bottom: 12px">
   {{ error }}
 </div>
 
 <!-- Lista -->
-<div class="card" style="padding: 16px;">
-  <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-    <div style="font-weight: 800;">Lista de alunos</div>
+<div class="card" style="padding: 16px">
+  <div
+    style="display: flex; justify-content: space-between; margin-bottom: 10px"
+  >
+    <div style="font-weight: 800">Lista de alunos</div>
     <div class="badge">{{ students.length }} aluno(s)</div>
   </div>
 
-  <div *ngIf="loading" style="color: var(--muted);">Carregando...</div>
+  <div *ngIf="loading" style="color: var(--muted)">Carregando...</div>
 
-  <div *ngIf="!loading && students.length === 0" style="color: var(--muted);">
+  <div *ngIf="!loading && students.length === 0" style="color: var(--muted)">
     Nenhum aluno encontrado.
   </div>
 
   <table
     *ngIf="!loading && students.length > 0"
-    style="width: 100%; border-collapse: collapse;"
+    style="width: 100%; border-collapse: collapse"
   >
     <thead>
-      <tr style="text-align: left; font-size: 12px; color: var(--muted);">
-        <th style="padding: 10px; border-bottom: 1px solid var(--border);">
+      <tr style="text-align: left; font-size: 12px; color: var(--muted)">
+        <th style="padding: 10px; border-bottom: 1px solid var(--border)">
           Aluno
         </th>
-        <th style="padding: 10px; border-bottom: 1px solid var(--border);">
+        <th style="padding: 10px; border-bottom: 1px solid var(--border)">
           Empresa
         </th>
-        <th style="padding: 10px; border-bottom: 1px solid var(--border);">
+        <th style="padding: 10px; border-bottom: 1px solid var(--border)">
           Cursos
         </th>
-        <th style="padding: 10px; border-bottom: 1px solid var(--border); width: 320px;">
+        <th
+          style="
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            width: 320px;
+          "
+        >
           Matrícula
         </th>
-        <th style="padding: 10px; border-bottom: 1px solid var(--border); width: 140px;">
+        <th
+          style="
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            width: 140px;
+          "
+        >
           Ações
         </th>
       </tr>
@@ -63,35 +77,35 @@
     <tbody>
       <tr *ngFor="let s of students">
         <!-- Aluno -->
-        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border);">
-          <div style="font-weight: 800;">{{ s.fullName }}</div>
-          <div style="font-size: 12px; color: var(--muted);">
+        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border)">
+          <div style="font-weight: 800">{{ s.fullName }}</div>
+          <div style="font-size: 12px; color: var(--muted)">
             {{ s.email }}
           </div>
         </td>
 
         <!-- Empresa -->
-        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border);">
-          {{ s.company?.name || '—' }}
+        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border)">
+          {{ s.company?.name || "—" }}
         </td>
 
         <!-- Cursos do aluno -->
-        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border);">
-          <div *ngIf="!s.courses?.length" style="color: var(--muted);">
+        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border)">
+          <div *ngIf="!s.courses?.length" style="color: var(--muted)">
             Sem cursos
           </div>
 
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
             <span
               *ngFor="let sc of s.courses"
               class="badge"
-              style="display: inline-flex; align-items: center; gap: 6px;"
+              style="display: inline-flex; align-items: center; gap: 6px"
             >
               {{ sc.course?.title }}
 
               <button
                 class="btn btn-ghost"
-                style="padding: 4px 8px;"
+                style="padding: 4px 8px"
                 (click)="unenroll(s, sc.course.id)"
                 title="Remover matrícula"
               >
@@ -102,11 +116,11 @@
         </td>
 
         <!-- Matrícula manual -->
-        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border);">
-          <div style="display: flex; gap: 10px; align-items: center;">
+        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border)">
+          <div style="display: flex; gap: 10px; align-items: center">
             <select
               class="input"
-              style="height: 38px;"
+              style="height: 38px"
               [(ngModel)]="selectedCourseByStudent[s.id]"
             >
               <option value="">Selecione um curso</option>
@@ -122,14 +136,14 @@
 
           <div
             *ngIf="courses.length === 0"
-            style="margin-top: 8px; color: var(--muted); font-size: 12px;"
+            style="margin-top: 8px; color: var(--muted); font-size: 12px"
           >
             Nenhum curso disponível para matrícula.
           </div>
         </td>
 
         <!-- Ações -->
-        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border);">
+        <td style="padding: 12px 10px; border-bottom: 1px solid var(--border)">
           <button class="btn btn-ghost" (click)="deactivate(s)">
             Desativar
           </button>
@@ -155,7 +169,7 @@
     z-index: 9999;
   "
 >
-  <div class="card" style="width: 720px; max-width: 100%; padding: 16px;">
+  <div class="card" style="width: 720px; max-width: 100%; padding: 16px">
     <div
       style="
         display: flex;
@@ -164,12 +178,12 @@
         margin-bottom: 12px;
       "
     >
-      <div style="font-weight: 900; font-size: 16px;">Cadastrar aluno</div>
+      <div style="font-weight: 900; font-size: 16px">Cadastrar aluno</div>
 
       <button class="btn btn-ghost" (click)="closeCreateModal()">Fechar</button>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
       <div>
         <label class="label">Nome</label>
         <input
@@ -196,7 +210,7 @@
           [(ngModel)]="formCompanyId"
           placeholder="(deixe vazio por enquanto)"
         />
-        <div style="font-size: 12px; color: var(--muted); margin-top: 6px;">
+        <div style="font-size: 12px; color: var(--muted); margin-top: 6px">
           Por enquanto não vamos vincular empresa no cadastro manual.
         </div>
       </div>
@@ -212,7 +226,7 @@
       </div>
     </div>
 
-    <div *ngIf="error" class="alert-error" style="margin-top: 10px;">
+    <div *ngIf="error" class="alert-error" style="margin-top: 10px">
       {{ error }}
     </div>
 
@@ -232,7 +246,7 @@
         [disabled]="creating"
         (click)="createStudent()"
       >
-        {{ creating ? 'Salvando...' : 'Salvar' }}
+        {{ creating ? "Salvando..." : "Salvar" }}
       </button>
     </div>
   </div>
