@@ -1,2 +1,125 @@
-<h1>Ola</h1>
-s
+<div class="page-container">
+  <header class="page-header">
+    <div>
+      <h1>Certificados</h1>
+      <p>Suas conquistas acadêmicas e profissionais.</p>
+    </div>
+
+    <div class="header-stat" *ngIf="!isLoadingList">
+      <span class="count">{{ certificates.length }}</span>
+      <span class="label">Emitidos</span>
+    </div>
+  </header>
+
+  <div *ngIf="errorMessage" class="state-container error">
+    <div class="icon-box error-icon">!</div>
+    <h3>Algo deu errado</h3>
+    <p>{{ errorMessage }}</p>
+    <button class="btn-retry" (click)="loadCertificates()">
+      Tentar Novamente
+    </button>
+  </div>
+
+  <div
+    *ngIf="!isLoadingList && !errorMessage && certificates.length === 0"
+    class="state-container empty"
+  >
+    <div class="empty-illustration">
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="8" r="7"></circle>
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+      </svg>
+    </div>
+    <h3>Nenhum certificado ainda</h3>
+    <p>
+      Conclua seus cursos e provas finais para desbloquear suas certificações.
+    </p>
+  </div>
+
+  <div class="cert-grid" *ngIf="!isLoadingList && certificates.length > 0">
+    <div class="cert-card" *ngFor="let cert of certificates">
+      <div class="card-visual">
+        <div class="visual-content">
+          <div class="logo-placeholder">L</div>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="badge-icon">
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+            >
+              <path d="M12 15l-2 5l-1-6l-5-2l6-1l2-5l2 5l6 1l-5 2l1 6z" />
+            </svg>
+          </div>
+        </div>
+        <div class="glow-effect"></div>
+      </div>
+
+      <div class="card-content">
+        <div class="meta-tag">{{ cert.issuedAt | date : "dd MMM yyyy" }}</div>
+        <h3 title="{{ cert.courseTitle }}">{{ cert.courseTitle }}</h3>
+
+        <div class="score-row">
+          <div class="score-bar">
+            <div class="fill" [style.width.%]="cert.scorePercent"></div>
+          </div>
+          <span class="score-val">{{ cert.scorePercent }}%</span>
+        </div>
+
+        <button
+          class="btn-download"
+          (click)="onDownload(cert)"
+          [disabled]="downloadingCourseId === cert.courseId"
+          [class.loading]="downloadingCourseId === cert.courseId"
+        >
+          <ng-container
+            *ngIf="downloadingCourseId === cert.courseId; else iconDownload"
+          >
+            <span class="spinner-dots"></span> Baixando
+          </ng-container>
+          <ng-template #iconDownload>
+            <span>Baixar PDF</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cert-grid" *ngIf="isLoadingList">
+    <div class="cert-card skeleton" *ngFor="let i of [1, 2, 3]">
+      <div class="card-visual shimmer"></div>
+      <div class="card-content">
+        <div class="shimmer-line w-30"></div>
+        <div class="shimmer-line w-80"></div>
+        <div class="shimmer-line w-50"></div>
+        <div class="shimmer-btn"></div>
+      </div>
+    </div>
+  </div>
+</div>
