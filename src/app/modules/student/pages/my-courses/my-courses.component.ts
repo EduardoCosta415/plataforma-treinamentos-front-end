@@ -15,10 +15,7 @@ export class MyCoursesComponent implements OnInit {
   error = '';
   courses: Course[] = [];
 
-  constructor(
-    private api: StudentCoursesService,
-    private router: Router,
-  ) {}
+  constructor(private api: StudentCoursesService, private router: Router) {}
 
   ngOnInit(): void {
     this.load();
@@ -42,6 +39,34 @@ export class MyCoursesComponent implements OnInit {
   }
 
   open(course: Course): void {
-    this.router.navigate(['/aluno/curso', course.id]);
+    console.log('➡️ Tentando abrir curso:', course);
+
+    // 1. Validação de segurança
+    if (!course || !course.id) {
+      console.error(
+        '❌ ERRO: O curso não possui ID válido para navegação.',
+        course
+      );
+      alert('Erro: Identificador do curso não encontrado.');
+      return;
+    }
+
+    // 2. Navegação com tratamento de erro (Promise)
+    // O caminho deve corresponder EXATAMENTE ao seu app-routing.module.ts
+    this.router
+      .navigate(['/aluno/curso', course.id])
+      .then((success) => {
+        if (success) {
+          console.log('✅ Navegação iniciada com sucesso');
+        } else {
+          console.error(
+            '⚠️ FALHA NA NAVEGAÇÃO: A rota "/aluno/curso/:id" existe?'
+          );
+          alert('Rota não encontrada. Verifique o console.');
+        }
+      })
+      .catch((err) => {
+        console.error('❌ Erro crítico no Router:', err);
+      });
   }
 }
