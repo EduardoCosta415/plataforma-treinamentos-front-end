@@ -81,6 +81,6 @@ export class StudentExamsComponent implements OnInit {
     if (!item.unlocked) return;
 
     // Próxima tela (a gente cria depois): /aluno/exams/:examId
-    this.router.navigate(['/aluno', 'exams', item.examId]);
+    this.router.navigate(['/aluno', 'provas', item.examId]);
   }
 }
