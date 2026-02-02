@@ -40,6 +40,7 @@ export class YoutubePlayerComponent implements AfterViewInit, OnChanges, OnDestr
 
   @ViewChild('host', { static: true }) host!: ElementRef<HTMLDivElement>;
 
+
   private player: any = null;
   private progressTimer: any = null;
 
