@@ -1,18 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 
-import { StudentCoursesService, Course } from '../../service/student-courses.service';
-import { StudentCertificatesService, StudentCertificate } from '../../service/studente-service.certificate';
+import {
+  StudentCoursesService,
+  Course,
+} from '../../service/student-courses.service';
+import {
+  StudentCertificatesService,
+  StudentCertificate,
+} from '../../service/studente-service.certificate';
 
 @Component({
   selector: 'app-certificate',
   template: `
     <div class="card" style="padding:16px;">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <div
+        style="display:flex; align-items:center; justify-content:space-between; gap:12px;"
+      >
         <div>
           <div style="font-weight:900; font-size:18px;">Certificados</div>
           <div style="font-size:12px; color:var(--muted); margin-top:6px;">
-            Cada curso libera o certificado após você finalizar a prova com nota mínima.
+            Cada curso libera o certificado após você finalizar a prova com nota
+            mínima.
           </div>
         </div>
 
@@ -29,15 +38,20 @@ import { StudentCertificatesService, StudentCertificate } from '../../service/st
         Carregando certificados...
       </div>
 
-      <div *ngIf="!loading" style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
+      <div
+        *ngIf="!loading"
+        style="margin-top:14px; display:flex; flex-direction:column; gap:12px;"
+      >
         <div *ngFor="let c of courses" class="card" style="padding:14px;">
-          <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+          <div
+            style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;"
+          >
             <div style="min-width:0;">
               <div style="font-weight:900;">{{ c.title }}</div>
 
               <div style="margin-top:6px; font-size:12px; color:var(--muted);">
-                Progresso do curso: <b>{{ c.progressPercent ?? 0 }}%</b>
-                • Aulas: {{ c.completedLessons ?? 0 }}/{{ c.totalLessons ?? 0 }}
+                Progresso do curso: <b>{{ c.progressPercent ?? 0 }}%</b> •
+                Aulas: {{ c.completedLessons ?? 0 }}/{{ c.totalLessons ?? 0 }}
               </div>
 
               <div style="margin-top:6px; font-size:12px; color:var(--muted);">
@@ -49,7 +63,9 @@ import { StudentCertificatesService, StudentCertificate } from '../../service/st
               </div>
             </div>
 
-            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+            <div
+              style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;"
+            >
               <div
                 class="badge"
                 [style.opacity]="isUnlocked(c.id) ? '1' : '0.7'"
@@ -68,12 +84,19 @@ import { StudentCertificatesService, StudentCertificate } from '../../service/st
             </div>
           </div>
 
-          <div *ngIf="isUnlocked(c.id)" style="margin-top:10px; font-size:12px; color:var(--muted);">
-            Emitido em: <b>{{ getIssuedAt(c.id) }}</b> • Nota: <b>{{ getScore(c.id) }}%</b>
+          <div
+            *ngIf="isUnlocked(c.id)"
+            style="margin-top:10px; font-size:12px; color:var(--muted);"
+          >
+            Emitido em: <b>{{ getIssuedAt(c.id) }}</b> • Nota:
+            <b>{{ getScore(c.id) }}%</b>
           </div>
         </div>
 
-        <div *ngIf="!courses.length" style="color:var(--muted); font-size:12px;">
+        <div
+          *ngIf="!courses.length"
+          style="color:var(--muted); font-size:12px;"
+        >
           Você ainda não possui cursos matriculados.
         </div>
       </div>
@@ -94,7 +117,7 @@ export class CertificateComponent implements OnInit {
 
   constructor(
     private coursesApi: StudentCoursesService,
-    private certApi: StudentCertificatesService,
+    private certApi: StudentCertificatesService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +142,9 @@ export class CertificateComponent implements OnInit {
         }
 
         this.totalCourses = this.courses.length;
-        this.totalUnlocked = this.courses.filter((c) => this.certByCourse.has(c.id)).length;
+        this.totalUnlocked = this.courses.filter((c) =>
+          this.certByCourse.has(c.id)
+        ).length;
 
         this.loading = false;
       },
@@ -155,7 +180,7 @@ export class CertificateComponent implements OnInit {
     if (!cert) return;
 
     alert(
-      `Certificado liberado!\nCurso: ${cert.courseTitle}\nNota: ${cert.scorePercent}%\nEmitido em: ${cert.issuedAt}`,
+      `Certificado liberado!\nCurso: ${cert.courseTitle}\nNota: ${cert.scorePercent}%\nEmitido em: ${cert.issuedAt}`
     );
   }
 }
