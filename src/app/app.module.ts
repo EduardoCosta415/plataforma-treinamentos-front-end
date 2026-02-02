@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CourseViewComponent } from './modules/student/pages/course-view/course-view.component';
-
+import { StudentCertificatesComponent } from './core/certificates/student-certificates.component';
 
 @NgModule({
   declarations: [AppComponent, CourseViewComponent],
