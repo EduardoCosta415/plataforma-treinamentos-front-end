@@ -14,13 +14,13 @@
       <div class="row">
         <div class="avatar" aria-hidden="true">
           <span class="avatar-letter">
-            {{ (c.title || 'C').slice(0,1).toUpperCase() }}
+            {{ (c.title || "C").slice(0, 1).toUpperCase() }}
           </span>
         </div>
 
         <div class="meta">
           <div class="title" title="{{ c.title }}">{{ c.title }}</div>
-          <div class="desc">{{ c.description || 'Sem descrição' }}</div>
+          <div class="desc">{{ c.description || "Sem descrição" }}</div>
         </div>
       </div>
 
@@ -30,8 +30,8 @@
 
           <!-- ✅ progresso real -->
           <span class="badge">
-            {{ (c.completedLessons || 0) }}/{{ (c.totalLessons || 0) }} aulas
-            • {{ c.progressPercent || 0 }}%
+            {{ c.completedLessons || 0 }}/{{ c.totalLessons || 0 }} aulas •
+            {{ c.progressPercent || 0 }}%
           </span>
         </div>
 
@@ -41,8 +41,12 @@
       </div>
 
       <div class="actions">
-        <button class="btn btn-ghost" type="button" (click)="load()">Atualizar</button>
-        <button class="btn btn-primary" type="button" (click)="open(c)">Continuar</button>
+        <button class="btn btn-ghost" type="button" (click)="load()">
+          Atualizar
+        </button>
+        <button class="btn btn-primary" type="button" (click)="open(c)">
+          Continuar
+        </button>
       </div>
     </div>
   </div>
