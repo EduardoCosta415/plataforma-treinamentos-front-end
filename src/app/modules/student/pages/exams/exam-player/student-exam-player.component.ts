@@ -10,7 +10,9 @@ import {
   selector: 'app-student-exam-player',
   template: `
     <div class="card" style="padding:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; gap:12px;"
+      >
         <div>
           <div style="font-weight:900; font-size:18px;">Fazer Prova</div>
           <div style="font-size:12px; color:var(--muted); margin-top:6px;">
@@ -19,8 +21,8 @@ import {
         </div>
 
         <div *ngIf="result" class="badge">
-          Nota: {{ result.scorePercent }}%
-          • {{ result.passed ? 'APROVADO ✅' : 'REPROVADO ❌' }}
+          Nota: {{ result.scorePercent }}% •
+          {{ result.passed ? 'APROVADO ✅' : 'REPROVADO ❌' }}
         </div>
       </div>
 
@@ -48,10 +50,9 @@ import {
           *ngIf="attemptInfo?.alreadyPassed"
           style="margin-top:12px; font-size:12px; color:var(--muted);"
         >
-          Você já passou nesta prova
-          (melhor nota:
-          <b>{{ attemptInfo?.bestScorePercent ?? 0 }}%</b>).
-          Não precisa fazer de novo.
+          Você já passou nesta prova (melhor nota:
+          <b>{{ attemptInfo?.bestScorePercent ?? 0 }}%</b>). Não precisa fazer
+          de novo.
         </div>
 
         <form
@@ -66,7 +67,9 @@ import {
           >
             <div style="font-weight:900;">{{ q.order }}. {{ q.title }}</div>
 
-            <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+            <div
+              style="display:flex; flex-direction:column; gap:8px; margin-top:10px;"
+            >
               <label
                 *ngFor="let op of q.options"
                 style="display:flex; gap:10px; align-items:center; cursor:pointer;"
@@ -109,21 +112,19 @@ export class StudentExamPlayerComponent implements OnInit {
   form: FormGroup = this.fb.group({});
 
   attemptId = '';
-  attemptInfo:
-    | {
-        maxAttempts: number;
-        attemptNumber: number;
-        alreadyPassed?: boolean;
-        bestScorePercent?: number;
-      }
-    | null = null;
+  attemptInfo: {
+    maxAttempts: number;
+    attemptNumber: number;
+    alreadyPassed?: boolean;
+    bestScorePercent?: number;
+  } | null = null;
 
   result: { scorePercent: number; passed: boolean } | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private api: StudentExamsApiService,
+    private api: StudentExamsApiService
   ) {}
 
   ngOnInit(): void {
