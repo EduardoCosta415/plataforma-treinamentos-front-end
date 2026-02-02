@@ -1,52 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service'; // Ajuste o caminho conforme seu projeto
+import { environment } from 'src/environments/environment'; // Boas práticas: use environment
 
-export type AttemptHistoryItem = {
-  id: string;
-  attemptNumber: number;
-  scorePercent: number | null;
-  passed: boolean;
-  startedAt: string;
-  finishedAt: string | null;
-};
-
-export type MyCertificateItem = {
+export interface MyCertificateItem {
   id: string;
   courseId: string;
   courseTitle: string;
   scorePercent: number;
-  issuedAt: string;
-  attemptId?: string | null;
+  issuedAt: string; // ISO Date
+}
 
-  // ✅ histórico
-  courseCompletedAt?: string | null;
-  attempts?: AttemptHistoryItem[];
-};
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CertificatesService {
-  private readonly baseUrl = 'http://localhost:3000';
+  Url = 'http://localhost:3000';
+  private readonly apiUrl = `${this.Url}/students/me/certificates`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  private authHeaders(): HttpHeaders {
+  // Helper para headers (Idealmente isso estaria num Interceptor, mas mantive aqui para garantir funcionamento)
+  private getHeaders(): HttpHeaders {
     const token = this.auth.token || localStorage.getItem('access_token') || '';
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
   }
 
-  listMyCertificates(): Observable<{ success: boolean; data: MyCertificateItem[] }> {
-    return this.http.get<{ success: boolean; data: MyCertificateItem[] }>(
-      `${this.baseUrl}/students/me/certificates`,
-      { headers: this.authHeaders() },
-    );
+  listMyCertificates(): Observable<MyCertificateItem[]> {
+    return this.http.get<MyCertificateItem[]>(this.apiUrl, {
+      headers: this.getHeaders(),
+    });
   }
 
-  // ✅ PDF com JWT
-  downloadMyCertificatePdf(courseId: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}/students/me/certificates/${courseId}/pdf`, {
-      headers: this.authHeaders(),
+  /**
+   * Baixa o PDF.
+   * Nota: responseType 'blob' é crucial para arquivos binários.
+   */
+  downloadCertificate(courseId: string): Observable<Blob> {
+    const url = `${this.apiUrl}/${courseId}/download`;
+    return this.http.get(url, {
+      headers: this.getHeaders(),
       responseType: 'blob',
     });
   }
