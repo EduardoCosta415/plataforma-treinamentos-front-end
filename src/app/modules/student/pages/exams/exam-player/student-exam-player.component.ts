@@ -77,7 +77,7 @@ import {
                 <input
                   type="radio"
                   [attr.name]="'q_' + q.id"
-                  [checked]="form?.get(q.id)?.value === op.id"
+                  [checked]="form.get(q.id)?.value === op.id"
                   (change)="selectOption(q.id, op.id)"
                 />
                 <span>{{ op.label }}</span>

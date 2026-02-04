@@ -100,14 +100,14 @@
                     <app-youtube-player
             [videoId]="selectedVideoId"
             [blockSeek]="true"
-            [allowedTime]="selectedLesson?.lastPosition || 0"
+            [allowedTime]="selectedLesson.lastPosition || 0"
             (progress)="onVideoProgress($event)"
             (ended)="onVideoEnded()"
           ></app-youtube-player>
 
           <div *ngIf="!canComplete && !selectedLesson.completed"
                style="margin-top:10px; font-size:12px; color:var(--muted);">
-            Assista o vídeo até o final para liberar a conclusão ✅
+            Assista o vídeo até o final para liberar a conclusão
           </div>
         </ng-container>
 
