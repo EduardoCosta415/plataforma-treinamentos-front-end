@@ -1,0 +1,116 @@
+<div class="page-head">
+  <div>
+    <h2>Biblioteca (Admin)</h2>
+    <p class="muted">Envie PDFs por curso e organize os materiais</p>
+  </div>
+
+  <button
+    class="btn btn-ghost"
+    (click)="loadItems()"
+    [disabled]="loadingItems || !selectedCourseId"
+  >
+    Atualizar
+  </button>
+</div>
+
+<div *ngIf="error" class="msg msg--error">{{ error }}</div>
+<div *ngIf="success" class="msg msg--success">{{ success }}</div>
+
+<div class="grid">
+  <!-- ESQUERDA -->
+  <div class="card panel">
+    <div class="panel-title">Curso</div>
+
+    <div class="row">
+      <select
+        class="select"
+        [disabled]="loadingCourses"
+        [value]="selectedCourseId"
+        (change)="onCourseChange($any($event.target).value)"
+      >
+        <option value="" disabled>Selecione um curso</option>
+        <option *ngFor="let c of courses" [value]="c.id">
+          {{ c.title }}
+        </option>
+      </select>
+    </div>
+
+    <div class="muted" *ngIf="loadingCourses">Carregando cursos...</div>
+
+    <div class="divider"></div>
+
+    <div class="panel-title">Adicionar PDF</div>
+
+    <div class="row">
+      <label class="label">Título (opcional)</label>
+      <input
+        class="input"
+        [value]="title"
+        (input)="onTitleInput($any($event.target).value)"
+        placeholder="Ex: Apostila NR33"
+      />
+    </div>
+
+    <div class="row">
+      <label class="label">Descrição (opcional)</label>
+      <input
+        class="input"
+        [value]="description"
+        (input)="onDescriptionInput($any($event.target).value)"
+        placeholder="Ex: Material de apoio"
+      />
+    </div>
+
+    <div class="row">
+      <label class="label">Arquivo PDF</label>
+      <input
+        id="pdfFile"
+        type="file"
+        accept="application/pdf"
+        (change)="onFilePicked($event)"
+      />
+      <div class="muted" *ngIf="file as f">{{ f.name }}</div>
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="upload()"
+      [disabled]="uploading || !selectedCourseId"
+    >
+      {{ uploading ? 'Enviando...' : 'Enviar PDF' }}
+    </button>
+  </div>
+
+  <!-- DIREITA -->
+  <div class="card panel">
+    <div class="panel-title">
+      Materiais do curso
+      <span class="muted" *ngIf="courseTitle">— {{ courseTitle }}</span>
+    </div>
+
+    <div *ngIf="loadingItems" class="muted">Carregando materiais...</div>
+
+    <div *ngIf="!loadingItems && items.length === 0" class="muted">
+      Nenhum PDF cadastrado para este curso.
+    </div>
+
+    <div class="list" *ngIf="!loadingItems && items.length > 0">
+      <div class="item" *ngFor="let it of items">
+        <div class="item-main">
+          <div class="item-title">{{ it.title }}</div>
+          <div class="muted" *ngIf="it.description">{{ it.description }}</div>
+          <div class="muted meta">
+            <span>PDF</span>
+            <span *ngIf="it.sizeBytes">• {{ formatBytes(it.sizeBytes) }}</span>
+            <span *ngIf="it.originalName">• {{ it.originalName }}</span>
+          </div>
+        </div>
+
+        <div class="item-actions">
+          <button class="btn btn-ghost" (click)="openPdf(it)">Abrir</button>
+          <button class="btn btn-danger" (click)="remove(it)">Remover</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

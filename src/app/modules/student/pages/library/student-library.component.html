@@ -1,0 +1,44 @@
+<div class="page-head">
+  <div>
+    <h2>Biblioteca</h2>
+    <p class="muted">Materiais em PDF liberados por curso</p>
+  </div>
+
+  <button class="btn btn-ghost" (click)="load()" [disabled]="loading">
+    Atualizar
+  </button>
+</div>
+
+<div *ngIf="loading" class="muted">Carregando...</div>
+<div *ngIf="!loading && error" class="error">{{ error }}</div>
+
+<div *ngIf="!loading && !error && groups.length === 0" class="muted">
+  Nenhum material disponível ainda.
+</div>
+
+<div class="groups" *ngIf="!loading && !error && groups.length > 0">
+  <div class="card course-group" *ngFor="let g of groups">
+    <div class="group-head">
+      <div class="title">{{ g.courseTitle }}</div>
+      <div class="muted">{{ g.items.length }} PDF(s)</div>
+    </div>
+
+    <div class="items">
+      <button
+        class="item"
+        type="button"
+        *ngFor="let it of g.items"
+        (click)="openPdf(it.fileUrl)"
+      >
+        <div class="item-main">
+          <div class="item-title">{{ it.title }}</div>
+          <div class="muted" *ngIf="it.description">{{ it.description }}</div>
+        </div>
+
+        <div class="item-meta">
+          <span class="badge">PDF</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

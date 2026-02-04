@@ -1,49 +1,428 @@
-<div class="landing">
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">L</div>
-      <div>
-        <div class="name">LAENA</div>
-        <div class="tag">Plataforma de Treinamentos</div>
-      </div>
-    </div>
+<div class="page">
+  <!-- BG DECOR -->
+  <div class="bg-blur bg-blur--a"></div>
+  <div class="bg-blur bg-blur--b"></div>
 
-    <a class="btn btn-primary" routerLink="/acesso">Acessar</a>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header__inner">
+      <div class="brand" (click)="goPlans()" style="cursor:pointer">
+        <div class="brand__logo">L</div>
+        <div class="brand__text">
+          <div class="brand__name">LAENA</div>
+          <div class="brand__tag">Treinamentos & Certificados</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="link" (click)="goPlans()">Planos</button>
+        <button class="link" (click)="goCourses()">Cursos</button>
+        <button class="link" (click)="openSignup()">Cadastro</button>
+
+        <div class="dropdown">
+          <button class="btn btn-primary btn-primary--header" (click)="toggleMenu()">
+            Acesso <span class="caret">▾</span>
+          </button>
+
+          <div class="menu" *ngIf="showMenu">
+            <button class="menu__item" (click)="goLogin()">Login</button>
+            <button class="menu__item" (click)="openSignup()">Cadastro</button>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-ghost--header" (click)="openWhatsApp()">
+          Falar com vendas
+        </button>
+      </nav>
+    </div>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
-    <h1>Treinamentos corporativos com controle e certificação</h1>
-    <p>
-      Gestão de empresas, alunos, cursos e acompanhamento de progresso com
-      liberação sequencial de aulas.
-    </p>
+    <div class="container hero__inner">
+      <div class="hero__left">
+        <div class="pill">Plataforma de Treinamentos Corporativos</div>
 
-    <div class="hero-actions">
-      <a class="btn btn-primary" routerLink="/acesso">Acessar</a>
-      <a class="btn btn-ghost" routerLink="/acesso" fragment="cadastro-empresa">
-        Sou empresa
-      </a>
+        <h1>
+          Treine sua equipe, aplique prova e libere
+          <span class="grad">certificados automaticamente</span>.
+        </h1>
+
+        <p class="muted hero__sub">
+          O aluno assiste as aulas, faz a prova e, ao atingir a nota mínima, o certificado do curso fica liberado.
+          Tudo organizado por curso, com histórico e evolução.
+        </p>
+
+        <div class="cta">
+          <button class="btn btn-primary btn-lg" (click)="openSignup()">Começar agora</button>
+          <button class="btn btn-ghost btn-lg" (click)="goLogin()">Já tenho conta</button>
+        </div>
+
+        <div class="trust">
+          <div class="trust__item"><div class="trust__dot"></div><span>Login seguro (JWT)</span></div>
+          <div class="trust__item"><div class="trust__dot"></div><span>Controle por tentativas</span></div>
+          <div class="trust__item"><div class="trust__dot"></div><span>Certificado automático</span></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat__n">✅</div>
+            <div class="stat__t">Provas por curso</div>
+            <div class="stat__d muted">1 prova vinculada ao curso</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__n">🎓</div>
+            <div class="stat__t">Certificado liberado</div>
+            <div class="stat__d muted">Ao ser aprovado</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__n">🔒</div>
+            <div class="stat__t">Controle de acesso</div>
+            <div class="stat__d muted">Aluno só vê o que é dele</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="mock">
+          <div class="mock__top">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <div class="mock__title">Área do Aluno</div>
+            <div class="mock__chip">Em produção</div>
+          </div>
+
+          <div class="mock__body">
+            <div class="row">
+              <div class="cardx">
+                <div class="cardx__h">Curso A</div>
+                <div class="muted">Progresso: 100%</div>
+                <div class="badge">Prova liberada</div>
+              </div>
+
+              <div class="cardx">
+                <div class="cardx__h">Curso B</div>
+                <div class="muted">Progresso: 65%</div>
+                <div class="badge badge--muted">Finalize para liberar</div>
+              </div>
+            </div>
+
+            <div class="cardx big">
+              <div class="cardx__h">Certificado</div>
+              <div class="muted">Liberado quando aprovado</div>
+              <div class="badge badge--ok">Disponível ✅</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note muted">
+          * Ao se cadastrar, você entra como aluno e aparece na lista do sistema. Cursos ficam vazios até um admin matricular.
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="grid">
-    <div class="card">
-      <h3>Empresas</h3>
-      <p>Painel de gestão por empresa, relatórios e acompanhamento consolidado.</p>
-    </div>
-
-    <div class="card">
-      <h3>Alunos</h3>
-      <p>Aulas com progressão sequencial, progresso individual e certificação.</p>
-    </div>
-
-    <div class="card">
-      <h3>Admin</h3>
-      <p>Cadastro de cursos, módulos e aulas, com total controle do conteúdo.</p>
+  <!-- LOGOS / SOCIAL PROOF -->
+  <section class="logos">
+    <div class="container logos__inner">
+      <div class="logos__title muted">Feito para empresas que querem padronizar treinamentos</div>
+      <div class="logos__row">
+        <div class="logo-pill">RH</div>
+        <div class="logo-pill">SST</div>
+        <div class="logo-pill">Qualidade</div>
+        <div class="logo-pill">Operação</div>
+        <div class="logo-pill">Compliance</div>
+      </div>
     </div>
   </section>
 
+  <!-- CURSOS (CARROSSEL - VITRINE) -->
+  <section class="section section--soft" id="courses">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2>Cursos em destaque</h2>
+          <p class="muted">Uma vitrine com seus cursos. Ideal para venda e apresentação.</p>
+        </div>
+
+        <div class="carousel__controls">
+          <button class="iconbtn" type="button" (click)="prevCourse()" [disabled]="courseIndex === 0" title="Anterior">
+            ‹
+          </button>
+          <button class="iconbtn" type="button" (click)="nextCourse()" [disabled]="courseIndex >= maxCourseIndex" title="Próximo">
+            ›
+          </button>
+        </div>
+      </div>
+
+      <div class="carousel2">
+        <div
+          class="carousel2__track"
+          [style.transform]="'translateX(-' + (courseIndex * stepPercent) + '%)'"
+        >
+          <div class="course" *ngFor="let c of courses">
+            <div class="course__card">
+              <div class="course__banner"></div>
+
+              <div class="course__top">
+                <div class="course__badge">{{ c.level }}</div>
+                <div class="course__time muted">{{ c.duration }}</div>
+              </div>
+
+              <div class="course__title">{{ c.title }}</div>
+              <div class="course__desc muted">{{ c.description }}</div>
+
+              <div class="course__meta">
+                <div class="meta-pill">📌 {{ c.modules }} módulos</div>
+                <div class="meta-pill">🎬 {{ c.lessons }} aulas</div>
+                <div class="meta-pill">🧾 Prova + certificado</div>
+              </div>
+
+              <div class="course__actions">
+                <button class="btn btn-primary w100" (click)="openSignup()">Quero acesso</button>
+                <button class="btn btn-ghost w100" style="margin-top:10px;" (click)="openWhatsApp()">
+                  Falar com vendas
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel2__footer">
+          <div class="muted small">Mostrando {{ cardsPerView }} por vez • Total: {{ courses.length }}</div>
+
+          <div class="carousel2__dots">
+            <button
+              class="dotbtn"
+              *ngFor="let p of pages; index as i"
+              type="button"
+              [class.dotbtn--active]="i === courseIndex"
+              (click)="goCourse(i)"
+              [title]="'Página ' + (i + 1)"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section class="section">
+    <div class="container">
+      <h2>Feito para vendas e para operação</h2>
+      <p class="muted">
+        Uma landing para atrair clientes e um sistema completo para gestão de alunos, cursos, provas e certificados.
+      </p>
+
+      <div class="grid3">
+        <div class="feature feature--glow">
+          <div class="icon">📚</div>
+          <div class="feature__t">Cursos organizados</div>
+          <div class="muted">Módulos, aulas e progresso do aluno de forma clara.</div>
+        </div>
+
+        <div class="feature feature--glow">
+          <div class="icon">🧠</div>
+          <div class="feature__t">Prova com tentativas</div>
+          <div class="muted">Controle por tentativa (padrão 3) e aprovação com 75%.</div>
+        </div>
+
+        <div class="feature feature--glow">
+          <div class="icon">🏅</div>
+          <div class="feature__t">Certificado automático</div>
+          <div class="muted">Aprovou? Certificado do curso fica liberado imediatamente.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="section section--soft">
+    <div class="container">
+      <h2>Como funciona</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step__n">1</div>
+          <div>
+            <div class="step__t">Aluno assiste as aulas</div>
+            <div class="muted">O progresso aumenta conforme ele conclui as aulas.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__n">2</div>
+          <div>
+            <div class="step__t">Prova libera após concluir o curso</div>
+            <div class="muted">Somente com 100% de aulas concluídas.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__n">3</div>
+          <div>
+            <div class="step__t">Passou na prova, certificado aparece</div>
+            <div class="muted">No menu de certificados, por curso.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta cta--center" style="margin-top:18px;">
+        <button class="btn btn-primary btn-lg" (click)="openSignup()">Criar conta</button>
+        <button class="btn btn-ghost btn-lg" (click)="openWhatsApp()">Quero falar com alguém</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CADASTRO -->
+  <section class="section" id="signup">
+    <div class="container">
+      <div class="signup">
+        <div class="signup__left">
+          <h2>Crie sua conta de aluno</h2>
+          <p class="muted">
+            Ao se cadastrar, você já entra na área do aluno. Seus cursos vão aparecer quando forem liberados/matriculados.
+          </p>
+
+          <div class="mini">
+            <div class="mini__item">✅ Entra automaticamente na lista de alunos</div>
+            <div class="mini__item">✅ Acesso protegido com token</div>
+            <div class="mini__item">✅ Cursos liberados conforme matrícula</div>
+          </div>
+
+          <div class="cta" style="margin-top:14px;">
+            <button class="btn btn-ghost w100" (click)="goPlans()">Ver planos</button>
+          </div>
+        </div>
+
+        <div class="signup__right">
+          <div class="formcard">
+            <div class="formcard__title">Cadastro</div>
+
+            <div *ngIf="error" class="alert alert--err">{{ error }}</div>
+            <div *ngIf="success" class="alert alert--ok">{{ success }}</div>
+
+            <form (ngSubmit)="submit()">
+              <label class="field">
+                <span>Nome completo</span>
+                <input type="text" [value]="form.value.fullName" (input)="form.patchValue({fullName: $any($event.target).value})" />
+              </label>
+
+              <div *ngIf="form.get('fullName')?.touched && form.get('fullName')?.invalid" class="err">
+                Informe seu nome.
+              </div>
+
+              <label class="field">
+                <span>Email</span>
+                <input type="email" [value]="form.value.email" (input)="form.patchValue({email: $any($event.target).value})" />
+              </label>
+
+              <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="err">
+                Informe um email válido.
+              </div>
+
+              <label class="field">
+                <span>Senha</span>
+                <input type="password" [value]="form.value.password" (input)="form.patchValue({password: $any($event.target).value})" />
+              </label>
+
+              <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="err">
+                Senha com no mínimo 6 caracteres.
+              </div>
+
+              <button class="btn btn-primary w100" type="submit" [disabled]="loading">
+                {{ loading ? 'Cadastrando...' : 'Criar conta e entrar' }}
+              </button>
+
+              <button class="btn btn-ghost w100" type="button" style="margin-top:10px;" (click)="goLogin()">
+                Já tenho conta (ir para login)
+              </button>
+            </form>
+
+            <div class="muted footnote">
+              Ao criar a conta, você concorda com os termos e política de privacidade.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section class="section section--soft" id="plans">
+    <div class="container">
+      <h2>Planos</h2>
+      <p class="muted">Escolha o melhor para sua empresa. (Você ajusta depois conforme Asaas/pagamento.)</p>
+
+      <div class="grid3">
+        <div class="plan">
+          <div class="plan__t">Starter</div>
+          <div class="plan__p">Ideal para começar</div>
+          <div class="plan__price">R$ XX/mês</div>
+          <ul>
+            <li>Até X alunos</li>
+            <li>Certificados automáticos</li>
+            <li>Suporte via WhatsApp</li>
+          </ul>
+          <button class="btn btn-primary w100" (click)="openWhatsApp()">Quero esse</button>
+        </div>
+
+        <div class="plan plan--hot">
+          <div class="plan__tag">Mais vendido</div>
+          <div class="plan__t">Pro</div>
+          <div class="plan__p">Para equipes maiores</div>
+          <div class="plan__price">R$ XX/mês</div>
+          <ul>
+            <li>Até X alunos</li>
+            <li>Provas + tentativas</li>
+            <li>Relatórios e dashboard</li>
+          </ul>
+          <button class="btn btn-primary w100" (click)="openWhatsApp()">Falar com vendas</button>
+        </div>
+
+        <div class="plan">
+          <div class="plan__t">Enterprise</div>
+          <div class="plan__p">Projeto sob medida</div>
+          <div class="plan__price">Sob consulta</div>
+          <ul>
+            <li>Integrações (Asaas)</li>
+            <li>Vimeo privado</li>
+            <li>Suporte dedicado</li>
+          </ul>
+          <button class="btn btn-primary w100" (click)="openWhatsApp()">Agendar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="container final-cta__inner">
+      <div>
+        <div class="final-cta__title">Quer vender treinamentos com uma plataforma completa?</div>
+        <div class="muted">Landing + Área do aluno + Provas + Certificados. Tudo no mesmo lugar.</div>
+      </div>
+
+      <div class="final-cta__actions">
+        <button class="btn btn-primary btn-lg" (click)="openSignup()">Começar agora</button>
+        <button class="btn btn-ghost btn-lg" (click)="openWhatsApp()">Falar no WhatsApp</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer class="footer">
-    <span>© {{ year }} LAENA</span>
+    <div class="container footer__inner">
+      <div class="muted">© {{ year }} LAENA • Todos os direitos reservados</div>
+      <button class="link" (click)="openWhatsApp()">Contato WhatsApp</button>
+    </div>
   </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <button class="wpp" (click)="openWhatsApp()" title="Falar no WhatsApp">
+    WhatsApp
+  </button>
 </div>

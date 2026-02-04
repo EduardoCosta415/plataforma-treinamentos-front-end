@@ -7,6 +7,7 @@ import { StudentExamsComponent } from './pages/exams/student-exams/student-exams
 import { StudentExamPlayerComponent } from './pages/exams/exam-player/student-exam-player.component';
 import { StudentCertificatesComponent } from 'src/app/core/certificates/student-certificates.component';
 import { CoursePlayerComponent } from './pages/course-player/course-player.component';
+import { StudentLibraryComponent } from './pages/library/student-library.component'
 
 // ⚠️ IMPORTANTE: Importe o componente que exibe as aulas do curso
 // Se você ainda não tem esse arquivo, crie ele ou ajuste o import
@@ -29,6 +30,9 @@ const routes: Routes = [
 
       // Certificados (Deixei apenas um, você tinha duplicado)
       { path: 'certificados', component: StudentCertificatesComponent },
+
+      //Biblioteca (PDFs por curso)
+      {path:'biblioteca', component : StudentLibraryComponent},
 
       // Fallback: Se a rota não existir, volta para a lista
       { path: '**', redirectTo: '' },

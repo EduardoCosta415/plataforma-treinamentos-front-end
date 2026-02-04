@@ -8,7 +8,9 @@ import { CourseContentComponent } from './pages/course-content/course-content.co
 import { ImportUsersComponent } from './pages/import-users/import-users.component';
 
 
+
 import { AdminGuard } from '../../core/guards/admin.guard'; // ✅ ADD AQUI
+import { AdminLibraryComponent } from './pages/library/admin-library.component';
 
 const routes: Routes = [
   {
@@ -39,6 +41,7 @@ const routes: Routes = [
 
       // ⚠️ você tem rotas duplicadas de alunos:
       { path: 'alunos', component: StudentsComponent },
+      {path: 'biblioteca', component: AdminLibraryComponent},
     ],
   },
 ];

@@ -1,0 +1,80 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  h2 {
+    margin: 0;
+    font-weight: 900;
+  }
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.error {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 0, 0, 0.25);
+  background: rgba(255, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+.groups {
+  margin-top: 14px;
+  display: grid;
+  gap: 14px;
+}
+
+.course-group {
+  padding: 14px;
+}
+
+.group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  .title {
+    font-weight: 900;
+  }
+}
+
+.items {
+  display: grid;
+  gap: 10px;
+}
+
+.item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  &:hover {
+    background: rgba(200,146,26,0.06);
+    border-color: rgba(200,146,26,0.25);
+  }
+}
+
+.item-title {
+  font-weight: 800;
+}
+
+.item-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
